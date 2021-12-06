@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Tools.Constants
+﻿namespace Assets.Scripts.Core.Constants
 {
     public class Tag
     {

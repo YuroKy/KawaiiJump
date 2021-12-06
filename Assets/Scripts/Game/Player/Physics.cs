@@ -1,24 +1,24 @@
-﻿using Assets.Scripts.Tools.Constants;
+﻿using Assets.Scripts.Core.Constants;
 using UnityEngine;
 
 namespace Assets.Scripts.Game.Player
 {
     public class Physics : MonoBehaviour
     {
-        [SerializeField] private float _jumpForce;
-        [SerializeField] private float _speed;
+        [SerializeField] private float _jumpForce = 0;
+        [SerializeField] private float _speed = 0;
 
-        private Controller _playerController;
+        private EventDispatcher _playerEventDispatcher;
         private Rigidbody2D _rb;
 
-        private bool _isJumped = false;
+        private bool _isJumped;
         private float _horizontalAxis;
 
         private void Start()
         {
-            _playerController = GetComponent<Controller>();
+            _playerEventDispatcher = GetComponent<EventDispatcher>();
             _rb = GetComponent<Rigidbody2D>();
-            _playerController.OnJump += Jump;
+            _playerEventDispatcher.OnJump += JumpHandler;
         }
 
         private void Update()
@@ -28,23 +28,34 @@ namespace Assets.Scripts.Game.Player
 
         private void FixedUpdate()
         {
-            _rb.velocity = new Vector2(_horizontalAxis * _speed * Time.fixedDeltaTime * 100f, _rb.velocity.y);
-
-            if (_isJumped)
-            {
-                _isJumped = false;
-                _rb.AddForce(new Vector2(0, _jumpForce));
-            }
+            Move();
+            Jump();
         }
 
         private void Jump()
+        {
+            if (!_isJumped)
+            {
+                return;
+            }
+
+            _isJumped = false;
+            _rb.AddForce(new Vector2(0, _jumpForce));
+        }
+
+        private void Move()
+        {
+            _rb.velocity = new Vector2(_horizontalAxis * _speed * Time.fixedDeltaTime * 100f, _rb.velocity.y);
+        }
+
+        private void JumpHandler()
         {
             _isJumped = true;
         }
 
         private void OnDestroy()
         {
-            _playerController.OnJump -= Jump;
+            _playerEventDispatcher.OnJump -= JumpHandler;
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Assets.Scripts.Game.Bonuses
+﻿namespace Assets.Scripts.Game.Bonuses
 {
     public class Topaz : BaseBonus
     {

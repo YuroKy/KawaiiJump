@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Game.Player;
 using TMPro;
 using UnityEngine;
+#pragma warning disable CS0649
 
 namespace Assets.Scripts.Game.UI
 {

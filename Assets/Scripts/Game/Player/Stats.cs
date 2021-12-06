@@ -9,25 +9,25 @@ namespace Assets.Scripts.Game.Player
         public event Action<int> OnScoreUpdated;
         public event Action<BaseBonus> OnBonusApplied;
 
-        private Controller _playerController;
+        private EventDispatcher _playerEventDispatcher;
         private int _score;
 
         private void Start()
         {
-            _playerController = GetComponent<Controller>();
-            _playerController.OnTookBonus += AquireBonus;
+            _playerEventDispatcher = GetComponent<EventDispatcher>();
+            _playerEventDispatcher.OnTookBonus += AcquireBonus;
         }
 
-        private void AquireBonus(BaseBonus bonus)
+        private void AcquireBonus(BaseBonus bonus)
         {
             _score += bonus.BonusScore;
-            OnScoreUpdated.Invoke(_score);
-            OnBonusApplied.Invoke(bonus);
+            OnScoreUpdated?.Invoke(_score);
+            OnBonusApplied?.Invoke(bonus);
         }
 
         private void OnDestroy()
         {
-            _playerController.OnTookBonus -= AquireBonus;
+            _playerEventDispatcher.OnTookBonus -= AcquireBonus;
         }
     }
 }
