@@ -40,7 +40,7 @@ namespace Assets.Scripts.Game.Player
             }
 
             _isJumped = false;
-            _rb.AddForce(new Vector2(0, _jumpForce));
+            _rb.velocity = new Vector2(0, _jumpForce);
         }
 
         private void Move()

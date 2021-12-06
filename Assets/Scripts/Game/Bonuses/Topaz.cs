@@ -2,6 +2,6 @@
 {
     public class Topaz : BaseBonus
     {
-        public override int BonusScore => 10;
+        public override int BonusScore => 15;
     }
 }
