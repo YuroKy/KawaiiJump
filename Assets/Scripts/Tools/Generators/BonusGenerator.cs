@@ -13,6 +13,11 @@ namespace Assets.Scripts.Tools.Generators
             var prefabIndex = Random.Range(0, _bonusPrefabs.Length);
             var bonusPrefab = _bonusPrefabs[prefabIndex];
 
+            if (bonusPrefab == null)
+            {
+                return;
+            }
+
             var positionX = Random.Range(MinGenerationPositionX, MaxGenerationPositionX);
             var positionY = Random.Range(MinGenerationPositionY, MaxGenerationPositionY);
             var position = new Vector3(positionX, positionY, 0);

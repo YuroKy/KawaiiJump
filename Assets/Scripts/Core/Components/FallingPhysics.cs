@@ -12,7 +12,6 @@ namespace Assets.Scripts.Core.Components
             _rb = GetComponent<Rigidbody2D>();
         }
 
-
         private void FixedUpdate()
         {
             Move();
