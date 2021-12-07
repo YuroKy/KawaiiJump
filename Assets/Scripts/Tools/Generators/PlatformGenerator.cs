@@ -11,6 +11,11 @@ namespace Assets.Scripts.Tools.Generators
 
         public override void Generate()
         {
+            if (_platformPrefab == null)
+            {
+                return;
+            }
+
             var positionX = Random.Range(MinGenerationPositionX, MaxGenerationPositionX);
             var position = new Vector3(positionX, MaxGenerationPositionY, 0);
             var fallingSpeed = Random.Range(MinFallingSpeed, MaxFallingSpeed);
