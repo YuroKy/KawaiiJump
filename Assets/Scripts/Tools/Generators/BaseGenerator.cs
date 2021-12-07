@@ -37,5 +37,10 @@ namespace Assets.Scripts.Tools.Generators
             Generate();
             _currentGenerationDelay = GenerationDelay;
         }
+
+        protected void OnDestroy()
+        {
+            _currentGenerationDelay = 0;
+        }
     }
 }
