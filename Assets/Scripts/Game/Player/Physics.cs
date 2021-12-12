@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.Core.Constants;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Assets.Scripts.Game.Player
 {
@@ -9,6 +11,7 @@ namespace Assets.Scripts.Game.Player
         [SerializeField] private float _speed = 0;
 
         private EventDispatcher _playerEventDispatcher;
+        private List<Controller> _playerControllers;
         private Rigidbody2D _rb;
 
         private bool _isJumped;
@@ -17,13 +20,16 @@ namespace Assets.Scripts.Game.Player
         private void Start()
         {
             _playerEventDispatcher = GetComponent<EventDispatcher>();
+            _playerControllers = FindObjectsOfType<Controller>().ToList();
             _rb = GetComponent<Rigidbody2D>();
+
             _playerEventDispatcher.OnJump += JumpHandler;
+            _playerControllers.ForEach(pc => pc.OnClick += UpdateHorizontalAxis);
         }
 
         private void Update()
         {
-            _horizontalAxis = Input.GetAxis(Axis.Horizontal);
+            _horizontalAxis = _horizontalAxis != 0 ? _horizontalAxis : Input.GetAxis(Axis.Horizontal);
         }
 
         private void FixedUpdate()
@@ -46,6 +52,12 @@ namespace Assets.Scripts.Game.Player
         private void Move()
         {
             _rb.velocity = new Vector2(_horizontalAxis * _speed * Time.fixedDeltaTime * 100f, _rb.velocity.y);
+            _horizontalAxis = 0;
+        }
+
+        private void UpdateHorizontalAxis(float axis)
+        {
+            _horizontalAxis = axis;
         }
 
         private void JumpHandler()
@@ -56,6 +68,8 @@ namespace Assets.Scripts.Game.Player
         private void OnDestroy()
         {
             _playerEventDispatcher.OnJump -= JumpHandler;
+            _playerControllers.ForEach(pc => pc.OnClick -= UpdateHorizontalAxis);
+
         }
     }
 }
